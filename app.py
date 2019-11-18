@@ -3,7 +3,7 @@ import random
 import telebot
 
 
-bot = telebot.TeleBot(token=os.environ.get('API_TOKEN'))
+bot = telebot.TeleBot(token=os.getenv('API_TOKEN'))
 
 # telebot.apihelper.proxy = {'https': 'https://141.125.82.106:80'}   # This is need for local debuging
 
