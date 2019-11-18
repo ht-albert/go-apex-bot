@@ -49,7 +49,7 @@ def apex_poll_call(call):
     chat_id = call.message.chat.id
     is_exists, is_all = check_press_button_user(call)
 
-    if not is_exists:
+    if is_exists is False:
         bot.delete_message(chat_id, config[chat_id]['message'])
         mess = bot.send_message(
             chat_id, update_text(call), reply_markup=None if is_all else get_markup(),
@@ -69,6 +69,7 @@ def check_press_button_user(call):
         press_users = config[chat_id]['users']
     except KeyError:
         bot.delete_message(chat_id, call.message.message_id)
+        return None, None
 
     if call.from_user.username in press_users:
         return True, False
