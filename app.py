@@ -3,9 +3,9 @@ import random
 import telebot
 
 
-bot = telebot.TeleBot(token=os.getenv('API_TOKEN'))
+bot = telebot.TeleBot(token=os.getenv('API_TOKEN', '697760828:AAEuJjR99aEar5WJz7PnU5-Pj_v4LrZEz1w'))
 
-# telebot.apihelper.proxy = {'https': 'https://141.125.82.106:80'}   # This is need for local debuging
+telebot.apihelper.proxy = {'https': 'https://141.125.82.106:80'}   # This is need for local debuging
 
 config = {}
 
@@ -18,7 +18,9 @@ because_i_am = {
 @bot.message_handler(commands=['reset'])
 def reset_apex(message):
     chat_id = message.chat.id
-    config.pop(chat_id, None)
+    poll = config.pop(chat_id, None)
+    if poll:
+        bot.delete_message(chat_id, poll['message'])
 
 
 @bot.message_handler(commands=['apex'])
@@ -63,7 +65,11 @@ def apex_poll_call(call):
 def check_press_button_user(call):
     chat_id = call.message.chat.id
 
-    press_users = config[chat_id]['users']
+    try:
+        press_users = config[chat_id]['users']
+    except KeyError:
+        bot.delete_message(chat_id, call.message.message_id)
+
     if call.from_user.username in press_users:
         return True, False
 
