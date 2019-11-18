@@ -32,7 +32,7 @@ def send_apex_request(message):
 
     mess = bot.send_message(
         chat_id,
-        "Ну что кто готов ссыграть в APEX?",
+        "Ну что кто готов сыграть в APEX?",
         reply_markup=get_markup(),
     )
 
@@ -93,4 +93,5 @@ def update_text(call):
     return text + f"{user}: Я {'пас' if call.data == 'no' else 'за'} потому что я {because}"
 
 
-bot.polling()
+if __name__ == "__main__":
+    bot.polling()
