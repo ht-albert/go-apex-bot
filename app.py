@@ -25,16 +25,18 @@ def reset_apex(message):
 
 @bot.message_handler(commands=['apex'])
 def send_apex_request(message):
-
+    t_param = '-t'
     chat_id = message.chat.id
     active_poll = config.pop(chat_id, None)
 
     if active_poll:
         bot.delete_message(chat_id, active_poll.get('message'))
 
+    time = __get_time(message.text, t_param) if t_param in message.text else ''
+
     mess = bot.send_message(
         chat_id,
-        "Ну что кто готов сыграть в APEX?",
+        f"Ну что кто готов сыграть в APEX {time}?",
         reply_markup=get_markup(),
     )
 
@@ -89,6 +91,7 @@ def get_markup():
     ]
 
     markup.row(*row)
+    markup.row(*[telebot.types.InlineKeyboardButton('Переобуться', callback_data='change')])
     return markup
 
 
@@ -98,6 +101,18 @@ def update_text(call):
     because = random.choice(because_i_am[call.data])
 
     return text + f"{user}: Я {'пас' if call.data == 'no' else 'за'} потому что я {because}"
+
+
+def __get_time(text, param):
+    command = text.replace('=', '')
+    time = command.split(param)[1]
+
+    try:
+        assert time and ':' in time and int(time.split(':')[0]) <= 24 and int(time.split(':')[1]) <= 60
+    except AssertionError:
+        time = ''
+
+    return time
 
 
 if __name__ == "__main__":
