@@ -91,7 +91,6 @@ def get_markup():
     ]
 
     markup.row(*row)
-    markup.row(*[telebot.types.InlineKeyboardButton('Переобуться', callback_data='change')])
     return markup
 
 
