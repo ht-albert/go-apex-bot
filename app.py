@@ -10,8 +10,10 @@ bot = telebot.TeleBot(token=os.getenv('API_TOKEN'))
 config = {}
 
 because_i_am = {
-    'no': ['лох', 'говнюк', 'каблук', 'каблук', 'чмо', 'гей'],
-    'yes': ['красава', 'лев', 'тигр', 'армянин', 'осетин', 'даг', 'мужик'],
+    'no': ['лох', 'говнюк', 'каблук', 'каблук', 'чмо', 'гей', 'турок', 'грузин', 'азер', 'иду на квеструм',
+           'сиськи дороже пацанов'],
+    'yes': ['красава', 'лев', 'тигр', 'армянин', 'осетин', 'даг', 'мужик', 'ваша единственная надежда на победу',
+            'пацаны дороже сисек', 'Бэтмен'],
 }
 
 
@@ -36,7 +38,7 @@ def send_apex_request(message):
 
     mess = bot.send_message(
         chat_id,
-        f"Ну что кто готов сыграть в APEX {time}?",
+        f"Ну что, кто готов сыграть в APEX {time}?",
         reply_markup=get_markup(),
     )
 
@@ -99,7 +101,7 @@ def update_text(call):
     user = call.from_user.first_name or "@" + call.from_user.username
     because = random.choice(because_i_am[call.data])
 
-    return text + f"{user}: Я {'пас' if call.data == 'no' else 'за'} потому что я {because}"
+    return text + f"{user}: Я {'пас' if call.data == 'no' else 'за'}, потому что я {because}"
 
 
 def __get_time(text, param):
